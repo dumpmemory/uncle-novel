@@ -71,7 +71,7 @@ jobs:
           architecture: ${{ matrix.arch }}
       - name: Init Exe4j License
         run: |
-          ${{ runner.workspace }}/packager/exe4j9/bin/exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
+          ${{ runner.workspace }}\packager\exe4j9\bin\exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
       - name: Cache gradle deps
         uses: actions/cache@v3
         with:
