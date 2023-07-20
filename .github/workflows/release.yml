@@ -23,10 +23,12 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
         run: ./gradlew packageMac
+      - name: Install Dependencies
+        run: |
+          brew install sass/sass/sass
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: uncle-novel.dmg
+          name: uncle-novel
           path: |
             app/build/packager/*.dmg
-            app/build/packager/*.pkg
