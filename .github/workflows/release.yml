@@ -72,6 +72,7 @@ jobs:
       - name: Install dependencies
         run: |
           choco install sass
+          choco install wix
       - name: Package windows x64
         if: matrix.arch == 'x64'
         run: ./gradlew packageWin64
