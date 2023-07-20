@@ -6,51 +6,53 @@ on:
       - "v*.*.*"
   workflow_dispatch:
 jobs:
-#  macOS:
-#    strategy:
-#      matrix:
-#        arch: [ x64, aarch64 ]
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-java@v3
-#        with:
-#          java-version: '17'
-#          distribution: 'zulu'
-#          architecture: ${{ matrix.arch }}
-#      - name: Cache gradle deps
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.gradle/caches
-#          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
-#          restore-keys: |
-#            ${{ runner.os }}-${{ matrix.arch }}-gradle
-#      - name: Cache brew deps
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            /usr/local/Homebrew
-#            /usr/local/Cellar
-#            /usr/local/Frameworks
-#            /usr/local/bin
-#            /usr/local/opt
-#            /usr/local/lib/python3.9
-#          key: ${{ runner.os }}-brew-cache
-#      - name: Install dependencies
-#        run: |
-#          brew install sass/sass/sass
-#      - name: Package mac amd64
-#        if: matrix.arch == 'x64'
-#        run: ./gradlew packageMac -PpkgArch=amd64
-#      - name: Package mac Arm64
-#        if: matrix.arch == 'aarch64'
-#        run: ./gradlew packageMac -PpkgArch=arm64
-#      - name: Upload artifact
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: uncle-novel-mac-${{ matrix.arch }}
-#          path: |
-#            app/build/packager/*.dmg
+  macOS:
+    strategy:
+      matrix:
+        arch: [ x64, aarch64 ]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          architecture: ${{ matrix.arch }}
+      - name: Cache gradle deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.arch }}-gradle
+      - name: Cache brew deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            /usr/local/Homebrew
+            /usr/local/Cellar
+            /usr/local/Frameworks
+            /usr/local/bin
+            /usr/local/opt
+            /usr/local/lib/python3.9
+          key: ${{ runner.os }}-brew-cache
+      - name: Install dependencies
+        run: |
+          brew install sass/sass/sass
+      - name: Package mac amd64
+        if: matrix.arch == 'x64'
+        run: ./gradlew packageMac -PpkgArch=amd64
+      - name: Package mac Arm64
+        if: matrix.arch == 'aarch64'
+        run: ./gradlew packageMac -PpkgArch=arm64
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: uncle-novel-mac-${{ matrix.arch }}
+          path: |
+            app/build/packager/uncle-novel-*.dmg
+            app/build/packager/uncle-novel-*.zip
+            app/build/packager/uncle-novel-*.pkg
   win:
     strategy:
       matrix:
@@ -91,4 +93,4 @@ jobs:
         with:
           name: uncle-novel-win-${{ matrix.arch }}
           path: |
-            app/build/packager/*.zip
+            app/build/packager/uncle-novel-*.zip
