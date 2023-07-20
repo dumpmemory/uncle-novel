@@ -1,5 +1,7 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.unclezs.novel.app.packager.model.MacConfig;
@@ -13,8 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
-
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so app could be easily distributed
@@ -56,7 +56,8 @@ public class GenerateDmg extends BaseSubTask {
     }
 
     // final dmg file
-    File dmgFile = new File(outputDirectory, name + "_" + version + ".dmg");
+    String outFileName = String.format("%s_%s_%s.dmg", packager.getPackageName(), version, packager.getArch());
+    File dmgFile = new File(outputDirectory, outFileName);
 
     // temp dmg file
     File tempDmgFile = new File(assetsFolder, dmgFile.getName());
@@ -152,7 +153,7 @@ public class GenerateDmg extends BaseSubTask {
     Logger.info("Compressing disk image...");
     ExecUtils.create("hdiutil")
       .add("convert", tempDmgFile)
-      .add("-ov","-format", "UDZO", "-imagekey", "zlib-level=9")
+      .add("-ov", "-format", "UDZO", "-imagekey", "zlib-level=9")
       .add("-o", dmgFile)
       .exec();
     FileUtils.del(tempDmgFile);

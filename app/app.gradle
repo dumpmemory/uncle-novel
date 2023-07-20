@@ -105,6 +105,7 @@ tasks.register('obfuscate', ProGuardTask) {
 def packagerDir = "${projectDir}/packager"
 packager {
     name = "Uncle小说"
+    packageName = "uncle-novel"
     version = project.version
     description = "Uncle小说"
 
@@ -220,6 +221,10 @@ tasks.register('packageMac', PackageTask) {
     platform = "mac"
     createZip = false
     generateInstaller = true
+    // 从命令行获取 ./gradlew packageMac -PpkgArch=arm64
+    if (project.hasProperty("pkgArch")) {
+        arch = getProperty("pkgArch")
+    }
 }
 tasks.register('packageWin64', PackageTask) {
     dependsOn build

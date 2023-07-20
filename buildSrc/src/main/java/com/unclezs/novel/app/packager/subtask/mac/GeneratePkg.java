@@ -1,8 +1,10 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.packager.MacPackager;
 import com.unclezs.novel.app.packager.subtask.BaseSubTask;
 import com.unclezs.novel.app.packager.util.ExecUtils;
+
 import java.io.File;
 
 /**
@@ -31,13 +33,14 @@ public class GeneratePkg extends BaseSubTask {
     String name = macPackager.getName();
     File outputDirectory = macPackager.getOutputDir();
     String version = macPackager.getVersion();
-
-    File pkgFile = new File(outputDirectory, name + "_" + version + ".pkg");
+    String outFileName =
+      String.format("%s_%s_%s.pkg", packager.getPackageName(), version, StrUtil.nullToEmpty(packager.getArch()));
+    File pkgFile = new File(outputDirectory, outFileName);
 
     // invokes pkgbuild command
     ExecUtils.create("pkgbuild")
       .add("--install-location", "/Applications")
-      .add("--component",appFile)
+      .add("--component", appFile)
       .add(pkgFile)
       .exec();
     // checks if pkg file was created

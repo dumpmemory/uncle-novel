@@ -7,6 +7,9 @@ on:
   workflow_dispatch:
 jobs:
   package:
+    strategy:
+      matrix:
+        arch: [ x64, aarch64 ]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,7 +17,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'zulu'
-          architecture: 'x64'
+          architecture: ${{ matrix.arch }}
       - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
@@ -24,11 +27,15 @@ jobs:
       - name: Install Dependencies
         run: |
           brew install sass/sass/sass
-      - name: Build with Gradle
-        run: ./gradlew packageMac
+      - name: Package Mac
+        if: matrix.arch == 'x64'
+        run: ./gradlew packageMac -PpkgArch=amd64
+      - name: Package Mac
+        if: matrix.arch == 'aarch64'
+        run: ./gradlew packageMac -PpkgArch=arm64
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: uncle-novel
+          name: uncle-novel-${{ matrix.arch }}
           path: |
             app/build/packager/*.dmg
