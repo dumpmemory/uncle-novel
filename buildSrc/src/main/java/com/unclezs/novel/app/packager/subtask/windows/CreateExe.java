@@ -31,6 +31,6 @@ public class CreateExe extends BaseSubTask {
     }
     Logger.info("使用 exe4jc 创建 exe 文件: {}", exe4jc);
     ExecUtils.create(exe4jc).add(config).exec();
-    return new File(packager.getAppFolder(), packager.getName().concat(".exe"));
+    return new File(packager.getAppFolder(), packager.getDisplayName().concat(".exe"));
   }
 }

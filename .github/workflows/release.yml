@@ -92,4 +92,3 @@ jobs:
           name: uncle-novel-win-${{ matrix.arch }}
           path: |
             app/build/packager/*.zip
-            app/build/packager/*.rar

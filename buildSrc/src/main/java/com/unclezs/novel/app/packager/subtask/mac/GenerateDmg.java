@@ -40,7 +40,7 @@ public class GenerateDmg extends BaseSubTask {
 
     File appFolder = macPackager.getAppFolder();
     File assetsFolder = macPackager.getAssetsFolder();
-    String name = macPackager.getName();
+    String name = macPackager.getDisplayName();
     File outputDirectory = macPackager.getOutputDir();
     File iconFile = macPackager.getPlatform().getPlatformConfig().getIconFile();
     String version = macPackager.getVersion();
@@ -56,7 +56,7 @@ public class GenerateDmg extends BaseSubTask {
     }
 
     // final dmg file
-    String outFileName = String.format("%s_%s_%s.dmg", packager.getPackageName(), version, packager.getArch());
+    String outFileName = String.format("%s_%s_%s.dmg", packager.getName(), version, packager.getArch());
     File dmgFile = new File(outputDirectory, outFileName);
 
     // temp dmg file
@@ -129,19 +129,6 @@ public class GenerateDmg extends BaseSubTask {
     // makes sure it's not world writeable and user readable
     Logger.info("Fixing permissions...");
     ExecUtils.create("chmod").add("-Rf", "u+r,go-w").add(mountFolder).exec();
-
-    // makes the top window open itself on mount:
-    Logger.info("Blessing ...");
-    ExecUtils.create("bless")
-      .add("--folder", mountFolder)
-      .add("--openfolder", mountFolder)
-      .exec();
-
-    // tells the volume that it has a special file attribute
-    ExecUtils.create("SetFile")
-      .add("-a")
-      .add("C", mountFolder)
-      .exec();
 
     // unmounts
     Logger.info("Unmounting volume: " + mountFolder);

@@ -1,7 +1,7 @@
+import com.unclezs.novel.app.packager.util.ExecUtils
+import com.unclezs.novel.app.packager.util.FileUtils
 import com.unclezs.novel.app.packager.task.PackageTask
 import com.unclezs.novel.app.packager.task.UpgradeTask
-import com.unclezs.novel.app.packager.util.FileUtils
-import proguard.gradle.ProGuardTask
 
 // prod / dev
 def profile = "prod"
@@ -10,9 +10,6 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url("https://oss.sonatype.org/content/groups/public/") }
-    }
-    dependencies {
-        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
     }
 }
 
@@ -75,37 +72,12 @@ tasks.register('runApp', JavaExec) {
     initAppRuntimeEnv()
 }
 
-tasks.register('runTest', JavaExec) {
-    dependsOn build
-    group "test"
-    // launch config
-    mainClass.set('com.unclezs.novel.app.main.test.TTSTest2')
-    mainModule.set('com.unclezs.novel.app.main')
-    workingDir(rootDir)
-    jvmArgs(runtimeArgs)
-
-    def modulePath = CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath)
-    // 输出runtimeArgs
-    doFirst {
-        println "runtimeArgs: ${runtimeArgs}"
-        println "modulePath: ${modulePath}"
-    }
-    jvmArgs("--module-path", modulePath)
-}
-
-tasks.register('obfuscate', ProGuardTask) {
-    injars jar
-    outjars "$buildDir/libs/${project.name}-pg.jar"
-    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
-    libraryjars files(configurations.runtimeClasspath.collect())
-    configuration "proguard.pro"
-}
-
 // 打包相关配置文件
 def packagerDir = "${projectDir}/packager"
 packager {
-    name = "Uncle小说"
+    name = "uncle-novel"
     packageName = "uncle-novel"
+    displayName = "Uncle小说"
     version = project.version
     description = "Uncle小说"
 
@@ -217,9 +189,9 @@ tasks.register('packageLinux', PackageTask) {
 }
 tasks.register('packageMac', PackageTask) {
     dependsOn build
-    description = "打Mac的的包，DMG、PKG"
+    description = "打 Mac 的的包，DMG、PKG"
     platform = "mac"
-    createZip = false
+    createZip = true
     generateInstaller = true
     // 从命令行获取 ./gradlew packageMac -PpkgArch=arm64
     if (project.hasProperty("pkgArch")) {
@@ -232,7 +204,8 @@ tasks.register('packageWin64', PackageTask) {
     description = "打64位Windows的包,EXE、Setup"
     platform = "win"
     createTar = false
-    generateInstaller = false
+    createZip = true
+    generateInstaller = true
 }
 tasks.register('packageWin32', PackageTask) {
     dependsOn build
@@ -250,6 +223,8 @@ tasks.register('packageWin32', PackageTask) {
         jfxPath = file(fxHome)
     }
     x64 = false
+    arch = "x86"
+    createZip = true
     createTar = false
     generateInstaller = true
 }

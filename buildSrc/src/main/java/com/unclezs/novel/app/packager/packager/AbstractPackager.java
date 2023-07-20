@@ -136,7 +136,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     if (Boolean.TRUE.equals(createZip)) {
       new CreateCompressedPackage(true).apply();
     }
-    if (Boolean.TRUE.equals(createZip)) {
+    if (Boolean.TRUE.equals(createTar)) {
       new CreateCompressedPackage(false).apply();
     }
     Logger.infoUnIndent("压缩包创建完成！");

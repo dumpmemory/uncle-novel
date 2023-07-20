@@ -30,11 +30,11 @@ public class GeneratePkg extends BaseSubTask {
     MacPackager macPackager = (MacPackager) packager;
 
     File appFile = macPackager.getAppFile();
-    String name = macPackager.getName();
+    String name = macPackager.getDisplayName();
     File outputDirectory = macPackager.getOutputDir();
     String version = macPackager.getVersion();
     String outFileName =
-      String.format("%s_%s_%s.pkg", packager.getPackageName(), version, StrUtil.nullToEmpty(packager.getArch()));
+      String.format("%s_%s_%s.pkg", packager.getName(), version, StrUtil.nullToEmpty(packager.getArch()));
     File pkgFile = new File(outputDirectory, outFileName);
 
     // invokes pkgbuild command
