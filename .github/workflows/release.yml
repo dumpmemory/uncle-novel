@@ -22,9 +22,9 @@ jobs:
 #        uses: actions/cache@v3
 #        with:
 #          path: ~/.gradle/caches
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+#          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
 #          restore-keys: |
-#            ${{ runner.os }}-gradle-
+#            ${{ runner.os }}-${{ matrix.arch }}-gradle
 #      - name: Cache brew deps
 #        uses: actions/cache@v3
 #        with:
@@ -68,14 +68,14 @@ jobs:
         with:
           path: |
             ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ${{ runner.os }}-gradle
+            ${{ runner.os }}-${{ matrix.arch }}-gradle
       - name: Cache choco packages
         uses: actions/cache@v3
         with:
           path: C:\ProgramData\chocolatey\lib
-          key: choco-packages
+          key: ${{ runner.os }}-choco-packages-${{ matrix.arch }}
       - name: Install dependencies
         run: |
           choco install sass
