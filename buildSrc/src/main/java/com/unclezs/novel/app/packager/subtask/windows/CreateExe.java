@@ -25,7 +25,7 @@ public class CreateExe extends BaseSubTask {
     File config = new File(packager.getAssetsFolder(), packager.getName().concat(".exe4j"));
     VelocityUtils.render("/packager/windows/exe4j.vm", config, packager);
     File projectDir = packager.getProject().getProjectDir();
-    String exe4jc = FileUtil.file(projectDir.getParentFile(), "/packager/exe4j9/bin/exe4jc").getAbsolutePath();
+    String exe4jc = FileUtil.file(projectDir.getParentFile(), "/packager/exe4j9/bin/exe4jc.exe").getAbsolutePath();
     if (!FileUtil.exist(exe4jc)) {
       exe4jc = "exe4jc";
     }

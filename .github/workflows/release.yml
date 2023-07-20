@@ -86,6 +86,9 @@ jobs:
         run: |
           choco install sass
           choco install wixtoolset
+      - name: Init Exe4j License
+        run: |
+          ./packager/exe4j9/bin/exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
       - name: Package windows x64
         if: matrix.arch == 'x64'
         run: ./gradlew packageWin64
