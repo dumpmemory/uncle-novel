@@ -72,7 +72,7 @@ jobs:
       - name: Init Exe4j License
         shell: cmd
         run: |
-          ${{ runner.workspace }}\packager\exe4j9\bin\exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
+          ${{ runner.workspace }}\uncle-novel\packager\exe4j9\bin\exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
       - name: Cache gradle deps
         uses: actions/cache@v3
         with:
