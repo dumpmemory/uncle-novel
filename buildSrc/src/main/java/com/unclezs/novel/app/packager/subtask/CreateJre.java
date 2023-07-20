@@ -88,7 +88,7 @@ public class CreateJre extends BaseSubTask {
       }
       // 使用模块生成定制的jre
       ExecUtils.create(new File(jdkPath, "/bin/jlink"))
-        .add("-J-Xmx2g")
+        .add("-J-Xmx3g")
         .add("--module-path", getModulePath())
         .add("--add-modules", getRequiredModules())
         .add("--output", destinationFolder)
