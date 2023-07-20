@@ -72,10 +72,10 @@ jobs:
       - name: Install dependencies
         run: |
           choco install sass
-      - name: Package windows
+      - name: Package windows x64
         if: matrix.arch == 'x64'
         run: ./gradlew packageWin64
-      - name: Package Mac
+      - name: Package windows x86
         if: matrix.arch == 'x86'
         run: ./gradlew packageWin32
       - name: Upload Artifact
