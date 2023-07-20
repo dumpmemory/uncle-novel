@@ -69,10 +69,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Cache Choco packages
+        uses: actions/cache@v3
+        with:
+          path: C:\ProgramData\chocolatey\lib
+          key: choco-packages
       - name: Install dependencies
         run: |
           choco install sass
-          choco install wix
+          choco install wixtoolset
       - name: Package windows x64
         if: matrix.arch == 'x64'
         run: ./gradlew packageWin64
