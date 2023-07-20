@@ -23,7 +23,6 @@ allprojects {
 subprojects { project ->
 
     apply plugin: "java"
-    apply plugin: "javafxPlugin"
     apply from: "${rootDir}/gradle/publications.gradle"
     apply from: "${rootDir}/gradle/dependency-management.gradle"
 

@@ -22,10 +22,8 @@ gradlePlugin {
             implementationClass = 'com.unclezs.novel.app.packager.PackagePlugin'
         }
 
-        javafxPlugin {
+        "javafxPlugin" {
             id = 'org.openjfx.javafxplugin'
-            displayName = 'JavaFX Gradle Plugin'
-            description = 'Plugin that makes it easy to work with JavaFX'
             implementationClass = 'org.openjfx.gradle.JavaFXPlugin'
         }
     }
